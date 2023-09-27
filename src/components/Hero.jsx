@@ -23,3 +23,6 @@ const Hero = () => {
 }
 
 export default Hero
+
+//22:32
+//streak
