@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { copy, linkIcon, loader, tick } from '../assets';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { useLazyGetSummaryQuery } from '../services/article';
+
 
 const Demo = () => {
     const [article, setArticle] = useState({
@@ -9,8 +11,20 @@ const Demo = () => {
         summary: '',
     });
 
+    const [getSummary, {err, isFetching }] = useLazyGetSummaryQuery();
+
     const handleSubmit = async (e) => {
-        
+        e.preventDefault();
+
+        const { data } = await getSummary({ articleUrl: article.url });
+
+        if(data?.summary) {
+            const newArticle = { ...article, summary: data.summary };
+
+            setArticle(newArticle);
+
+            console.log(newArticle);
+        }
     }
 
     return (
@@ -49,3 +63,4 @@ const Demo = () => {
 
 export default Demo
 
+// 52:33
